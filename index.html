@@ -1,0 +1,461 @@
+
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Khóa Học • JSON driven</title>
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <style>
+    /* ====== Theme Variables ====== */
+    :root {
+      --primary-color: #4f46e5;
+      --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      --secondary-color: #64748b;
+      --bg-primary: #f8fafc;
+      --bg-card: #ffffff;
+      --text-primary: #1e293b;
+      --text-secondary: #475569;
+      --text-muted: #6b7280;
+      --border-light: #e5e7eb;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --transition: all 0.2s ease;
+    }
+
+    /* ====== Global Styles ====== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.5;
+      padding: 1.5rem;
+      min-height: 100vh;
+    }
+
+    /* ====== Container ====== */
+    .app-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    /* ====== Header ====== */
+    .app-header {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .app-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .app-header .subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    /* ====== Content Area ====== */
+    .content-area {
+      padding: 2rem;
+    }
+
+    /* ====== Search Section ====== */
+    .search-section {
+      margin-bottom: 2rem;
+    }
+
+    .search-container {
+      position: relative;
+      max-width: 5222200px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    /* ====== Table Styles ====== */
+    .table-container {
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    #courses {
+      width: 100%;
+    }
+
+    #courses thead th {
+      background: var(--primary-color);
+      color: white;
+      padding: 1rem;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    #courses tbody td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    #courses tbody tr:hover {
+      background: #f1f5f9;
+    }
+
+    .tuition {
+      font-weight: 600;
+      color: #177991;
+    }
+
+    /* ====== Mode Badges ====== */
+    .mode-badge {
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .mode-badge.online {
+      background: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+    }
+
+    .mode-badge.hybrid {
+      background: rgba(245, 158, 11, 0.1);
+      color: #f59e0b;
+    }
+
+    .mode-badge.offline {
+      background: rgba(79, 70, 229, 0.1);
+      color: var(--primary-color);
+    }
+
+    /* ====== Mobile Cards ====== */
+    .mobile-card-container {
+      display: none;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .course-card {
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .card-header {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 1rem;
+      font-weight: 600;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .card-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .card-row:last-child {
+      border-bottom: none;
+    }
+
+    .card-row strong {
+      font-weight: 600;
+      min-width: 100px;
+    }
+
+    .card-footer {
+      padding: 1rem;
+      text-align: right;
+    }
+
+    .card-details-link {
+      background: var(--primary-color);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .card-details-link:hover {
+      background: #4338ca;
+    }
+
+    /* ====== Phone Link ====== */
+    .phone-link {
+      color: var(--primary-color);
+      text-decoration: none;
+      margin-left: 0.5rem;
+    }
+
+    /* ====== DataTables ====== */
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_info,
+    .dataTables_wrapper .dataTables_paginate {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      margin: 0 0.25rem;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    /* ====== Responsive ====== */
+    @media (max-width: 1200px) {
+      .desktop-table { display: none; }
+      .mobile-card-container { display: flex; }
+    }
+
+    @media (max-width: 768px) {
+      body { padding: 1rem; }
+      .content-area { padding: 1rem; }
+      .app-header { padding: 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .app-header h1 { font-size: 1.5rem; }
+      .app-header .subtitle { font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <main class="content-area">
+      <section class="search-section">
+        <div class="search-container">
+          <i class="fas fa-search search-icon"></i>
+          <input id="globalSearch" class="search-input" placeholder="Tìm kiếm khóa học..." autocomplete="off">
+        </div>
+      </section>
+
+      <div class="desktop-table">
+        <div class="table-container">
+          <table id="courses" class="display nowrap">
+            <thead>
+              <tr>
+                <th>Ngày bắt đầu</th>
+                <th>Ngày kết thúc</th>
+                <th>Giảng viên</th>
+                <th>Khóa học</th>
+                <th>Địa điểm</th>
+                <th>Hình thức</th>
+                <th>Danh mục</th>
+                <th>Học phí</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="mobileCardContainer" class="mobile-card-container"></div>
+    </main>
+  </div>
+
+  <script>
+    // ====== Utility Functions ======
+    const VND = n => (n || 0).toLocaleString('vi-VN') + ' ₫';
+    const parseNum = t => parseInt(String(t).replace(/[^\d]/g, '')) || 0;
+    const createModeBadge = mode => {
+      const isOnline = /online|zoom|trực tuyến/i.test(mode);
+      const isHybrid = /hybrid|kết hợp/i.test(mode);
+      let className, icon;
+      if (isOnline) { [className, icon] = ['online', 'fa-video']; }
+      else if (isHybrid) { [className, icon] = ['hybrid', 'fa-people-arrows']; }
+      else { [className, icon] = ['offline', 'fa-chalkboard-teacher']; }
+      return `<span class="mode-badge ${className}"><i class="fas ${icon}"></i> ${mode || '?'}</span>`;
+    };
+
+    // ====== Custom DataTables Sorting ======
+    $.fn.dataTable.ext.type.order['ddmmyyyy-pre'] = d => {
+      if (!d || d.includes('--')) return 0;
+      const [dd, mm, yyyy] = d.split('/');
+      return new Date(yyyy, mm - 1, dd).getTime() || 0;
+    };
+    $.fn.dataTable.ext.type.order['vnd-pre'] = t => parseNum(t);
+
+    // ====== Data Fetching & Processing ======
+    async function getData() {
+      try {
+        const res = await fetch('https://webhook.gnh.vn/webhook/event_info', { cache: 'no-store' });
+        if (!res.ok) throw new Error(`API Error: ${res.status}`);
+        const raw = await res.json();
+        return raw
+          .filter(x => x.course && x.speaker)
+          .map(x => ({
+            start: x.start_date || '--/--/----',
+            end: x.end_date || '--/--/----',
+            speaker: x.speaker,
+            course: x.course,
+            loc: x.location || 'N/A',
+            mode: x.learning_mode || 'N/A',
+            cat: x.categories ? [x.categories] : ['Uncategorized'],
+            fee: parseNum(x.tuition),
+            href: x.href || '#',
+          }));
+      } catch (err) {
+        console.warn('API lỗi, dùng dữ liệu demo:', err);
+        return [
+          {start:'10/06/2025',end:'15/06/2025',speaker:'Nguyễn Văn A',course:'Python cơ bản',loc:'Hà Nội',mode:'Trực tuyến',cat:['Lập trình'],fee:2000000,href:'#'},
+          {start:'20/06/2025',end:'25/06/2025',speaker:'Trần Thị B',course:'Quản trị dự án',loc:'TP.HCM',mode:'Tại chỗ',cat:['PM'],fee:3500000,href:'#'}
+        ];
+      }
+    }
+
+    // ====== Mobile Cards Renderer ======
+    function fillCards(data) {
+      const container = $('#mobileCardContainer').empty();
+      if (!data || data.length === 0) {
+        container.html('<p style="text-align:center;padding:1.5rem;color:var(--text-muted)">Không tìm thấy khóa học phù hợp.</p>');
+        return;
+      }
+      const cardsHtml = data.map(c => `
+        <article class="course-card">
+          <header class="card-header">${c.course}</header>
+          <div class="card-body">
+            <div class="card-row"><strong>Giảng viên:</strong> <span>${c.speaker}</span></div>
+            <div class="card-row"><strong>Thời gian:</strong> <span>${c.start} - ${c.end}</span></div>
+            <div class="card-row"><strong>Địa điểm:</strong> <span>${c.loc}</span></div>
+            <div class="card-row"><strong>Hình thức:</strong> <span>${createModeBadge(c.mode)}</span></div>
+            <div class="card-row"><strong>Học phí:</strong> <span class="tuition">${VND(c.fee)}</span></div>
+          </div>
+          <footer class="card-footer">
+            <a href="${c.href}" target="_blank" class="card-details-link">Xem chi tiết</a>
+          </footer>
+        </article>
+      `).join('');
+      container.html(cardsHtml);
+    }
+
+    // ====== Debounce Helper ======
+    const debounce = (fn, ms = 250) => {
+      let timeoutId;
+      return function(...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => fn.apply(this, args), ms);
+      };
+    };
+
+    // ====== Main Initialization ======
+    $(async () => {
+      const courseData = await getData();
+      
+      fillCards(courseData);
+
+      const dt = $('#courses').DataTable({
+        data: courseData,
+        columns: [
+          { data: 'start' },
+          { data: 'end' },
+          { data: 'speaker' },
+          { data: 'course' },
+          { data: 'loc' },
+          { data: 'mode' },
+          { data: 'cat', render: data => data.join(', ') },
+          { data: 'fee' }
+        ],
+        columnDefs: [
+          { type: 'ddmmyyyy', targets: [0, 1] },
+          { type: 'vnd', targets: 7 },
+          {
+            targets: 4,
+            render: (data, type, row) => `${data} ${/^\+?\d/.test(data.trim()) ? `<a href="tel:${data.trim()}" class="phone-link" title="Gọi điện"><i class="fas fa-phone"></i></a>` : ''}`
+          },
+          {
+            targets: 5,
+            render: (data, type, row) => createModeBadge(data)
+          },
+          {
+            targets: 7,
+            render: (data, type, row) => `<span class="tuition">${VND(data)}</span>`
+          }
+        ],
+        createdRow: (row, data, dataIndex) => {
+          $(row).attr('data-href', data.href).css('cursor', 'pointer');
+        },
+        scrollX: true,
+        order: [[0, 'asc']],
+        pageLength: 25,
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, 'Tất cả']],
+        dom: '<"top"l>rt<"bottom"ip>',
+        autoWidth: false
+      });
+
+      const handleSearch = function() {
+        const query = this.value;
+        dt.search(query).draw();
+      };
+      $('#globalSearch').on('input', debounce(handleSearch, 300));
+
+      dt.on('draw.dt', () => {
+        const filteredData = dt.rows({ search: 'applied' }).data().toArray();
+        fillCards(filteredData);
+      });
+
+      $('#courses tbody').on('click', 'tr', function(e) {
+        if ($(e.target).closest('a').length) return;
+        const link = $(this).data('href');
+        if (link && link !== '#') {
+          window.open(link, '_blank');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
