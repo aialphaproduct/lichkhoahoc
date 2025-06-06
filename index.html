@@ -21,12 +21,12 @@
       --primary-color: #4f46e5;
       --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
       --secondary-color: #64748b;
-      --bg-primary: #f1f5f9; /* Thay đổi nền body để thấy rõ card */
+      --bg-primary: #f1f5f9;
       --bg-card: #ffffff;
       --text-primary: #1e293b;
       --text-secondary: #475569;
       --text-muted: #6b7280;
-      --border-light: #e2e8f0; /* Sử dụng màu viền rõ hơn */
+      --border-light: #e2e8f0;
       --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
       --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
       --radius-sm: 8px;
@@ -53,31 +53,21 @@
       background: var(--bg-card);
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-md);
-      /* Bỏ overflow: hidden để position: sticky hoạt động */
     }
 
-    .app-header {
-      background: var(--primary-gradient);
-      color: #fff;
-      padding: 2rem;
-      text-align: center;
-    }
-    .app-header h1 { font-size: 2rem; font-weight: 700; margin-bottom: .5rem; }
-    .app-header .subtitle { opacity: .9; }
-
-    .content-area { padding: 1.5rem 2rem 2rem; } /* Điều chỉnh padding top */
+    .content-area { padding: 1.5rem 2rem 2rem; }
 
     /* ====== Search ====== */
     .search-section {
-      position: -webkit-sticky; /* Dành cho Safari */
+      position: -webkit-sticky;
       position: sticky;
       top: 0;
-      z-index: 100; /* Đảm bảo nằm trên cùng */
+      z-index: 100;
       background: var(--bg-card);
       padding: 1.5rem 2rem;
       border-bottom: 1px solid var(--border-light);
-      border-radius: var(--radius-md) var(--radius-md) 0 0; /* Bo góc trên */
-      margin: 0; /* Reset margin */
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      margin: 0;
     }
     .search-container { position: relative; max-width: 100%; }
     .search-input {
@@ -127,14 +117,8 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 16px rgba(0,0,0,0.12);
     }
-    
     .card-thumbnail-container {
-      position: relative;
-      width: 100%;
-      height: 0;
-      padding-bottom: 56.9%;
-      overflow: hidden;
-      background: var(--primary-gradient);
+      position: relative; width: 100%; height: 0; padding-bottom: 56.9%; overflow: hidden; background: var(--primary-gradient);
     }
     .card-thumbnail {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
@@ -142,12 +126,10 @@
     .card-thumbnail-placeholder {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--primary-gradient); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 1.1rem; text-align: center; padding: 1rem;
     }
-    
     .card-header { padding: 1.25rem 1.25rem 0; }
     .card-title {
       color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin: 0 0 1rem 0; line-height: 1.4;
     }
-    
     .card-body { padding: 0 1.25rem 1.25rem; }
     .card-meta {
       display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;
@@ -158,7 +140,6 @@
     .card-mode-badge.online { background: #dcfdf7; color: #065f46; }
     .card-mode-badge.offline { background: #dbeafe; color: #1e40af; }
     .card-mode-badge.hybrid { background: #fef3c7; color: #92400e; }
-    
     .card-info-grid { display: grid; gap: 0.75rem; margin-bottom: 1.25rem; }
     .card-info-item {
       display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;
@@ -169,15 +150,12 @@
     .card-info-item .info-value {
       color: var(--text-primary); font-weight: 500;
     }
-    
     .card-price {
       font-size: 1.25rem; font-weight: 700; color: #dc2626; margin-bottom: 1rem;
     }
-    
     .card-description {
       color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin-bottom: 1.25rem; word-wrap: break-word; hyphens: auto;
     }
-    
     .card-footer { padding: 0 1.25rem 1.25rem; display: flex; gap: 0.75rem; }
     .card-register-btn {
       flex: 1; background: #16a34a; color: #fff; padding: 0.75rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: var(--transition); text-align: center; font-size: 0.9rem;
@@ -203,10 +181,8 @@
 
     /* ====== Responsive tweaks ====== */
     @media (max-width: 1200px) { .desktop-table { display: none; } .mobile-card-container { display: flex; } }
-    @media (max-width: 768px)  { body { padding: 1rem; } .content-area { padding: 1rem 1.5rem 1.5rem; } .search-section { padding: 1rem 1.5rem; border-radius: var(--radius-md) var(--radius-md) 0 0; } .app-header { padding: 1.5rem; } }
+    @media (max-width: 768px)  { body { padding: 1rem; } .content-area { padding: 1rem 1.5rem 1.5rem; } .search-section { padding: 1rem 1.5rem; border-radius: var(--radius-md) var(--radius-md) 0 0; } }
     @media (max-width: 480px)  {
-      .app-header h1 { font-size: 1.5rem; }
-      .app-header .subtitle { font-size: .9rem; }
       .card-footer { flex-direction: column; }
       .card-register-btn, .card-details-btn { text-align: center; }
     }
@@ -263,20 +239,14 @@
 
   const parseNum = t => parseInt(String(t).replace(/[^\d]/g, '')) || 0;
 
-  /*
-   * [SỬA ĐỔI] Hàm VND được cập nhật để xử lý cả số và chữ
-   */
   const VND = value => {
     const originalString = String(value || '').trim();
     if (originalString === '') return 'Cập nhật';
 
-    // Regex để kiểm tra xem chuỗi có chứa chữ cái hay không.
-    // Nếu có chữ, nó sẽ được coi là văn bản (vd: "Thỏa thuận").
     if (/[a-zA-Z]/.test(originalString)) {
       return originalString;
     }
     
-    // Nếu không có chữ, nó được coi là số và sẽ được định dạng.
     const num = parseNum(originalString);
     return num.toLocaleString('vi-VN') + ' ₫';
   };
@@ -307,11 +277,14 @@
     if (!query) return true;
 
     return Object.values(rowData).some(val => {
-      if (typeof val === 'number') {
-        return stripVN(VND(val)).includes(query) || String(val).includes(query);
+      // Xử lý cả số và chuỗi
+      const text = String(val || '');
+      // Đối với học phí, ta tìm kiếm trên cả giá trị gốc và giá trị đã định dạng
+      if (val === rowData.fee) {
+        const formattedFee = VND(val);
+        return stripVN(text).includes(query) || stripVN(formattedFee).includes(query);
       }
-      const text = typeof val === 'string' ? val : String(val);
-      return stripVN($('<div>').html(text).text()).includes(query);
+      return stripVN(text).includes(query);
     });
   });
 
@@ -332,7 +305,6 @@
           course: x.course,
           loc: x.location || 'N/A',
           mode: x.learning_mode || 'N/A',
-          // [SỬA ĐỔI] Giữ lại giá trị gốc của học phí từ API
           fee: x.tuition,
           href: x.href || '#',
           thumbnail: x.thumbnail || '',
@@ -379,44 +351,20 @@
             `<div class="card-thumbnail-placeholder">${c.course}</div>`
           }
         </div>
-        
-        <div class="card-header">
-          <h3 class="card-title">${c.course}</h3>
-        </div>
-        
+        <div class="card-header"><h3 class="card-title">${c.course}</h3></div>
         <div class="card-body">
           <div class="card-meta">
-            <span class="card-mode-badge ${getModeBadgeClass(c.mode)}">
-              <i class="fas ${getModeIcon(c.mode)}"></i>
-              ${c.mode}
-            </span>
+            <span class="card-mode-badge ${getModeBadgeClass(c.mode)}"><i class="fas ${getModeIcon(c.mode)}"></i> ${c.mode}</span>
           </div>
-          
           <div class="card-info-grid">
-            <div class="card-info-item">
-              <i class="fas fa-user info-icon"></i>
-              <span class="info-value">${c.speaker}</span>
-            </div>
-            <div class="card-info-item">
-              <i class="fas fa-calendar info-icon"></i>
-              <span class="info-value">${c.start} - ${c.end}</span>
-            </div>
-            <div class="card-info-item">
-              <i class="fas fa-map-marker-alt info-icon"></i>
-              <span class="info-value">${c.loc}</span>
-            </div>
-            ${c.categories ? `
-            <div class="card-info-item">
-              <i class="fas fa-tag info-icon"></i>
-              <span class="info-value">${c.categories}</span>
-            </div>` : ''}
+            <div class="card-info-item"><i class="fas fa-user info-icon"></i><span class="info-value">${c.speaker}</span></div>
+            <div class="card-info-item"><i class="fas fa-calendar info-icon"></i><span class="info-value">${c.start} - ${c.end}</span></div>
+            <div class="card-info-item"><i class="fas fa-map-marker-alt info-icon"></i><span class="info-value">${c.loc}</span></div>
+            ${c.categories ? `<div class="card-info-item"><i class="fas fa-tag info-icon"></i><span class="info-value">${c.categories}</span></div>` : ''}
           </div>
-          
           <div class="card-price">${VND(c.fee)}</div>
-          
           ${c.description ? `<div class="card-description">${c.description}</div>` : ''}
         </div>
-        
         <div class="card-footer">
           <a href="${c.href}" target="_blank" class="card-register-btn">Đăng ký ngay</a>
           <a href="${c.href}" target="_blank" class="card-details-btn">Chi tiết</a>
@@ -443,13 +391,7 @@
     const dt = $('#courses').DataTable({
       data: courseData,
       columns: [
-        { data: 'start' },
-        { data: 'end' },
-        { data: 'speaker' },
-        { data: 'course' },
-        { data: 'loc' },
-        { data: 'mode' },
-        { data: 'fee' }
+        { data: 'start' }, { data: 'end' }, { data: 'speaker' }, { data: 'course' }, { data: 'loc' }, { data: 'mode' }, { data: 'fee' }
       ],
       columnDefs: [
         { type: 'ddmmyyyy', targets: [0, 1] },
@@ -468,14 +410,19 @@
       lengthMenu: [[10, 25, 50, -1], [10, 25, 50, 'Tất cả']],
       dom: '<"top"l>rt<"bottom"ip>',
       autoWidth: false,
-
-      fixedColumns: {
-          left: 3
-      }
+      fixedColumns: { left: 3 }
     });
 
+    /*
+     * [SỬA LỖI TÌM KIẾM]
+     * Thay đổi duy nhất nằm ở dòng dưới đây.
+     * Thay vì gọi dt.search(this.value), ta chỉ cần gọi dt.draw().
+     * Lệnh này sẽ yêu cầu DataTables vẽ lại bảng, và khi đó,
+     * plugin tìm kiếm tùy chỉnh ($.fn.dataTable.ext.search.push) sẽ được
+     * tự động kích hoạt để thực hiện việc lọc dữ liệu một cách chính xác.
+    */
     $('#globalSearch').on('input', debounce(function () {
-      dt.search(this.value).draw();
+      dt.draw();
     }));
 
     dt.on('draw.dt', () => {
